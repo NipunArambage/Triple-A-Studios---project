@@ -57,6 +57,27 @@ function Navbar() {
   );
 }
 
+// --- TUNNEL IMAGE COMPONENT ---
+function TunnelImage({ img, baseZTranslate }: { img: any, baseZTranslate: any }) {
+  const zPosition = useTransform(baseZTranslate, (z) => z + img.initialZ);
+  const opacity = useTransform(zPosition, [0, 800, 1100], [1, 1, 0]);
+
+  return (
+    <motion.div
+      className="absolute w-64 h-80 md:w-80 md:h-96 rounded-2xl overflow-hidden bg-white/5 border border-white/10 shadow-[0_0_30px_rgba(122,54,97,0.15)]"
+      style={{
+        x: img.x,
+        y: img.y,
+        z: zPosition,
+        opacity
+      }}
+    >
+      <img src={img.src} alt="Event Memory" className="w-full h-full object-cover opacity-70" />
+      <div className="absolute inset-0 bg-gradient-to-b from-transparent to-[#050505]/80" />
+    </motion.div>
+  );
+}
+
 // --- HERO COMPONENT: 3D MEMORY TUNNEL ---
 function Hero() {
   const containerRef = useRef<HTMLElement>(null);
@@ -65,27 +86,66 @@ function Hero() {
     offset: ["start start", "end end"],
   });
 
-  // Array of image placeholders with random positions and initial Z depth
-  const images = [
-    { src: "https://images.unsplash.com/photo-1511285560929-80b456fea0bc?auto=format&fit=crop&w=600&q=80", x: "-30vw", y: "-20vh", initialZ: -500 },
-    { src: "https://images.unsplash.com/photo-1505369650741-fce4e5d65416?auto=format&fit=crop&w=600&q=80", x: "25vw", y: "-30vh", initialZ: -1000 },
-    { src: "https://images.unsplash.com/photo-1530103862676-de3c9de59a9e?auto=format&fit=crop&w=600&q=80", x: "35vw", y: "20vh", initialZ: -1500 },
-    { src: "https://images.unsplash.com/photo-1519225421980-715cb0215aed?auto=format&fit=crop&w=600&q=80", x: "-40vw", y: "25vh", initialZ: -2000 },
-    { src: "https://images.unsplash.com/photo-1511795409834-ef04bbd61622?auto=format&fit=crop&w=600&q=80", x: "0vw", y: "-40vh", initialZ: -2500 },
-    { src: "https://images.unsplash.com/photo-1464366400600-7168b8af9bc3?auto=format&fit=crop&w=600&q=80", x: "-15vw", y: "35vh", initialZ: -3000 },
-    { src: "https://images.unsplash.com/photo-1470225620780-dba8ba36b745?auto=format&fit=crop&w=600&q=80", x: "20vw", y: "40vh", initialZ: -3500 },
-    { src: "https://images.unsplash.com/photo-1533174000228-4f1db1f3eb12?auto=format&fit=crop&w=600&q=80", x: "-35vw", y: "-5vh", initialZ: -4000 },
+  // Array of 34 images (reusing the 17) arranged with a much wider spread to fill left and right spaces
+  const baseImages = [
+    "/hero/621848447_17993939222877131_8333462674463645102_n.jpg",
+    "/hero/631689845_17937778866150418_6385713466754071028_n.jpg",
+    "/hero/643556925_18074742518610403_6490087042240107978_n.jpg",
+    "/hero/657723799_17944075440150418_1007812871726275105_n.jpg",
+    "/hero/659790739_17944075458150418_1346727943459988503_n.jpg",
+    "/hero/670758186_17947210164150418_3383262450044641990_n.jpg",
+    "/hero/718980915_17954330217150418_8002955018236714850_n.jpg",
+    "/hero/729517899_17956942341150418_2428405952751175522_n.jpg",
+    "/hero/730275133_17956942302150418_1881068074142399441_n.jpg",
+    "/hero/730313461_17957250834150418_7158865483969560520_n.jpg",
+    "/hero/730481081_17957250825150418_632041158573215947_n.jpg",
+    "/hero/731163805_17956942314150418_8102722829699058608_n.jpg",
+    "/hero/732584263_17957250783150418_2446060800365633050_n.jpg",
+    "/hero/733139694_17957250822150418_521846599997047810_n.jpg",
+    "/hero/746484878_17959817235150418_3624927233354226246_n.jpg",
+    "/hero/748907732_17959817217150418_8031955162559802504_n.jpg",
+    "/hero/837268663_17971600980150418_4613754311559507995_n.jpg"
   ];
 
-  // Base translation: move images forward by 5500px as user scrolls from 0 to 0.8
-  const baseZTranslate = useTransform(scrollYProgress, [0, 0.8], [0, 5500]);
+  // We map over baseImages twice to create 34 cards.
+  // We use a highly structured "7-Lane" system to form a perfect, clear U-shape tunnel.
+  const images = [...baseImages, ...baseImages].map((src, i) => {
+    const lane = i % 7;
+    let x = 0;
+    let y = 0;
+    
+    // Assign base coordinates based on the lane to form a perfect U-shape
+    switch(lane) {
+      case 0: x = -40; y = -20; break; // Top Left Wall
+      case 1: x = 40; y = -20; break;  // Top Right Wall
+      case 2: x = -45; y = 10; break;  // Mid Left Wall
+      case 3: x = 45; y = 10; break;   // Mid Right Wall
+      case 4: x = -25; y = 35; break;  // Bottom Left
+      case 5: x = 25; y = 35; break;   // Bottom Right
+      case 6: x = 0; y = 40; break;    // Bottom Center
+    }
+
+    // Add a very subtle, fixed offset based on index to make it feel organic but structured
+    const xOffset = (i % 3 === 0) ? 3 : (i % 3 === 1) ? -3 : 0;
+    const yOffset = (i % 2 === 0) ? 3 : -3;
+
+    return {
+      src,
+      x: `${x + xOffset}vw`,
+      y: `${y + yOffset}vh`,
+      initialZ: -1000 - (i * 450) // Evenly spaced down the Z-axis
+    };
+  });
+
+  // Base translation: move images forward by 18000px as user scrolls from 0 to 0.85
+  const baseZTranslate = useTransform(scrollYProgress, [0, 0.85], [0, 18000]);
 
   // Final text reveal animations
   const textOpacity = useTransform(scrollYProgress, [0.75, 0.95], [0, 1]);
   const textScale = useTransform(scrollYProgress, [0.75, 0.95], [0.9, 1]);
 
   return (
-    <section id="home" ref={containerRef} className="relative w-full h-[300vh]">
+    <section id="home" ref={containerRef} className="relative w-full h-[500vh]">
       <div 
         className="sticky top-0 w-full h-screen overflow-hidden bg-[#050505] flex items-center justify-center" 
         style={{ perspective: "1200px" }}
@@ -93,29 +153,9 @@ function Hero() {
         
         {/* The 3D Environment */}
         <div className="absolute inset-0 w-full h-full flex items-center justify-center" style={{ transformStyle: "preserve-3d" }}>
-          {images.map((img, i) => {
-            // Calculate individual Z position
-            const zPosition = useTransform(baseZTranslate, (z) => z + img.initialZ);
-            
-            // Fade out the image as it gets very close to the camera (Z near 1000) to prevent clipping
-            const opacity = useTransform(zPosition, [0, 800, 1100], [1, 1, 0]);
-
-            return (
-              <motion.div
-                key={i}
-                className="absolute w-64 h-80 md:w-80 md:h-96 rounded-2xl overflow-hidden bg-white/5 border border-white/10 shadow-[0_0_30px_rgba(122,54,97,0.15)]"
-                style={{
-                  x: img.x,
-                  y: img.y,
-                  z: zPosition,
-                  opacity
-                }}
-              >
-                <img src={img.src} alt="Event Memory" className="w-full h-full object-cover opacity-70" />
-                <div className="absolute inset-0 bg-gradient-to-b from-transparent to-[#050505]/80" />
-              </motion.div>
-            );
-          })}
+          {images.map((img, i) => (
+            <TunnelImage key={i} img={img} baseZTranslate={baseZTranslate} />
+          ))}
         </div>
 
         {/* Final Reveal Background Image */}
