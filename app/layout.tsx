@@ -15,11 +15,13 @@ const geistMono = Geist_Mono({
 const playfair = Playfair_Display({
   variable: "--font-playfair",
   subsets: ["latin"],
+  style: ["normal", "italic"],
 });
 
 export const metadata: Metadata = {
-  title: "Triple A Design Studios",
-  description: "Capabilities - Four disciplines. One seamless vision.",
+  title: "Triple A Design Studios — Crafting Unforgettable Events",
+  description:
+    "Luxury event management across Sri Lanka, Singapore & the Indian Ocean. Weddings, corporate gatherings, and private celebrations conceived as monumental spatial narratives.",
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
@@ -28,7 +30,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       lang="en"
       className={`${geistSans.variable} ${geistMono.variable} ${playfair.variable} h-full antialiased`}
     >
-      <body className="min-h-full flex flex-col bg-[#0f0f0f] text-gray-200 font-sans">{children}</body>
+      <body className="min-h-full flex flex-col bg-[#050505] text-white font-sans">
+        {children}
+      </body>
     </html>
   );
 }

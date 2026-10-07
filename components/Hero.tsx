@@ -1,27 +1,111 @@
+"use client";
+
+import { useRef } from "react";
+import { motion, useScroll, useTransform } from "framer-motion";
+
 export default function Hero() {
+  const containerRef = useRef<HTMLElement>(null);
+
+  const { scrollYProgress } = useScroll({
+    target: containerRef,
+    offset: ["start start", "end end"],
+  });
+
+  // Animate the scale of the mask container.
+  const maskScale = useTransform(scrollYProgress, [0, 0.8], [1, 200]);
+  
+  // Inverse scale for the inner image so it remains perfectly static
+  const imageScale = useTransform(maskScale, (s) => 1 / s);
+
+  // Fallback fade-in for the background image. 
+  // This guarantees the full image is revealed at the end of the scroll,
+  // even if the mask zooms into a transparent gap in the logo.
+  const bgFadeIn = useTransform(scrollYProgress, [0.6, 0.85], [0, 1]);
+
+  // Text animations
+  const textOpacity = useTransform(scrollYProgress, [0.7, 0.95], [0, 1]);
+  const textY = useTransform(scrollYProgress, [0.7, 0.95], [40, 0]);
+
+  const heroImage = "https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=1920&q=80";
+
+  // By keeping the origin exactly at 50% 50%, the logo stays dead center while zooming.
+  const zoomOrigin = "50% 50%";
+
   return (
-    <section className="px-8 lg:px-16 pt-24 pb-16 max-w-4xl">
-      {/* Breadcrumb / Label */}
-      <div className="flex items-center gap-3 mb-10 text-[10px] uppercase tracking-[0.25em] text-gray-500 font-semibold">
-        <div className="w-1.5 h-1.5 bg-gray-300"></div>
-        <span>Triple A Design Studios · Capabilities</span>
+    <section id="home" ref={containerRef} className="relative w-full h-[300vh]">
+      {/* Initial State: Solid Plum (#8E4585) background */}
+      <div className="sticky top-0 w-full h-screen overflow-hidden bg-[#8E4585] flex items-center justify-center">
+        
+        {/* 
+          Layer 1: Fallback Background Image.
+          Fades in at the end of the scroll to ensure the image is 100% visible full-screen,
+          overriding any mask transparent gaps.
+        */}
+        <motion.div 
+          style={{ opacity: bgFadeIn }} 
+          className="absolute inset-0 w-screen h-screen z-0"
+        >
+          <img src={heroImage} className="w-full h-full object-cover" alt="Hero background" />
+          <div className="absolute inset-0 bg-[#050505]/40" />
+        </motion.div>
+
+        {/* 
+          Layer 2: The Mask Reveal.
+          Scales massively while inverse-scaling the inner image.
+        */}
+        <motion.div
+          className="absolute inset-0 z-10 pointer-events-none flex items-center justify-center"
+          style={{
+            scale: maskScale,
+            transformOrigin: zoomOrigin,
+            maskImage: "url('/a3-logo.png')",
+            WebkitMaskImage: "url('/a3-logo.png')",
+            maskPosition: "center",
+            WebkitMaskPosition: "center",
+            maskRepeat: "no-repeat",
+            WebkitMaskRepeat: "no-repeat",
+            maskSize: "30vh", // Base size of the logo in the center
+            WebkitMaskSize: "30vh",
+          }}
+        >
+          {/* Background image inverse-scaled to stay static */}
+          <motion.div 
+            style={{ scale: imageScale, transformOrigin: zoomOrigin }}
+            className="w-screen h-screen flex-shrink-0"
+          >
+            <img src={heroImage} className="w-full h-full object-cover" alt="Hero background" />
+            <div className="absolute inset-0 bg-[#050505]/40" />
+          </motion.div>
+        </motion.div>
+
+        {/* Layer 3: Hero Content Revealed */}
+        <motion.div
+          style={{ opacity: textOpacity, y: textY }}
+          className="absolute inset-0 z-20 flex flex-col items-center justify-center text-center px-6 pointer-events-auto"
+        >
+          <h1 className="font-serif text-5xl md:text-7xl lg:text-[7.5rem] leading-[1.05] text-white mb-6">
+            Crafting<br />Unforgettable Events
+          </h1>
+          <p className="text-white/80 max-w-2xl text-base md:text-lg mb-10 font-light">
+            We transform extraordinary spaces into singular ceremonies — weaving production, floral scapes, and bespoke olfactory compositions.
+          </p>
+          <div className="flex gap-4">
+            <a
+              href="#how-it-works"
+              className="px-8 py-4 rounded-full font-semibold text-sm tracking-widest uppercase text-white bg-[#8E4585] hover:bg-[#8E4585]/90 hover:shadow-[0_0_30px_rgba(142,69,133,0.5)] transition-all duration-300"
+            >
+              Plan Your Event
+            </a>
+            <a
+              href="#packages"
+              className="px-8 py-4 rounded-full font-semibold text-sm tracking-widest uppercase text-white border border-white/20 hover:text-black hover:bg-white transition-all duration-300"
+            >
+              View Packages
+            </a>
+          </div>
+        </motion.div>
+
       </div>
-
-      {/* Headings */}
-      <h1 className="text-6xl md:text-7xl lg:text-[5.5rem] leading-[1.1] mb-12 text-white">
-        <span className="font-serif">Four disciplines.</span>
-        <br />
-        <span className="font-serif italic text-gray-300">One seamless vision.</span>
-      </h1>
-
-      {/* Description */}
-      <p className="text-gray-400 text-lg md:text-xl leading-relaxed max-w-[42rem] font-light">
-        We conceive celebrations as monumental spatial narratives. Bridging the
-        grand estates of Sri Lanka, high-altitude private residences, and historic
-        architectural halls across Singapore and the Indian Ocean, our studio weaves
-        production, monumental floral scapes, tactile papercraft, and bespoke
-        olfactory compositions into one singular ceremony.
-      </p>
     </section>
   );
 }
