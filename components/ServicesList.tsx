@@ -4,10 +4,10 @@ import { useRef } from "react";
 import { motion, useInView, Variants } from "framer-motion";
 
 const services = [
-  { id: "01", title: "Production", subtitle: "SCENOGRAPHY & CONCIERGE" },
-  { id: "02", title: "Botanicals", subtitle: "MONUMENTAL SCULPTURES" },
-  { id: "03", title: "Stationery", subtitle: "DECKLED TACTILE SUITES" },
-  { id: "04", title: "Olfaction", subtitle: "VESSELS & SCENT ATMOSPHERE" },
+  { id: "01", title: "Event Planning", subtitle: "FULL-SERVICE EVENT DESIGN" },
+  { id: "02", title: "Floral Styling", subtitle: "BOTANICAL ARRANGEMENTS & SCAPES" },
+  { id: "03", title: "Wedding Stationery", subtitle: "BESPOKE PAPER & PRINT SUITES" },
+  { id: "04", title: "Atelier Candles", subtitle: "ARTISAN SCENT & AMBIENCE" },
 ];
 
 const containerVariants: Variants = {

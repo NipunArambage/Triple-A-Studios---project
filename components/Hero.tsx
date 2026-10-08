@@ -64,8 +64,8 @@ export default function Hero() {
             WebkitMaskPosition: "center",
             maskRepeat: "no-repeat",
             WebkitMaskRepeat: "no-repeat",
-            maskSize: "30vh", // Base size of the logo in the center
-            WebkitMaskSize: "30vh",
+            maskSize: "min(30vh, 70vw)", // Responsive base size of the logo in the center
+            WebkitMaskSize: "min(30vh, 70vw)",
           }}
         >
           {/* Background image inverse-scaled to stay static */}
@@ -89,16 +89,16 @@ export default function Hero() {
           <p className="text-white/80 max-w-2xl text-base md:text-lg mb-10 font-light">
             We transform extraordinary spaces into singular ceremonies — weaving production, floral scapes, and bespoke olfactory compositions.
           </p>
-          <div className="flex gap-4">
+          <div className="flex flex-col sm:flex-row gap-4 w-full sm:w-auto mt-2">
             <a
               href="#how-it-works"
-              className="px-8 py-4 rounded-full font-semibold text-sm tracking-widest uppercase text-white bg-[#8E4585] hover:bg-[#8E4585]/90 hover:shadow-[0_0_30px_rgba(142,69,133,0.5)] transition-all duration-300"
+              className="w-full sm:w-auto text-center px-8 py-4 rounded-full font-semibold text-sm tracking-widest uppercase text-white bg-[#8E4585] hover:bg-[#8E4585]/90 hover:shadow-[0_0_30px_rgba(142,69,133,0.5)] transition-all duration-300"
             >
               Plan Your Event
             </a>
             <a
               href="#packages"
-              className="px-8 py-4 rounded-full font-semibold text-sm tracking-widest uppercase text-white border border-white/20 hover:text-black hover:bg-white transition-all duration-300"
+              className="w-full sm:w-auto text-center px-8 py-4 rounded-full font-semibold text-sm tracking-widest uppercase text-white border border-white/20 hover:text-black hover:bg-white transition-all duration-300"
             >
               View Packages
             </a>
