@@ -88,7 +88,7 @@ export default function Footer() {
                 </div>
               </div>
               <p className="text-white/35 text-sm leading-relaxed max-w-sm">
-                Crafting celebrations as monumental spatial narratives across Sri Lanka, Singapore & the Indian Ocean. Every event, an experience etched in memory.
+                Curating stories through design. Event Planning · Floral Styling · Wedding Stationery · Atelier Candles — across Sri Lanka &amp; Singapore.
               </p>
               {/* Social links */}
               <div className="flex items-center gap-3 mt-6">
