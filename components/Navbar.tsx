@@ -9,7 +9,7 @@ const navLinks = [
   { label: "Home", href: "#home", icon: Home },
   { label: "Services", href: "#packages", icon: LayoutGrid },
   { label: "Events", href: "#gallery", icon: CalendarDays },
-  { label: "Contact", href: "#how-it-works", icon: Mail },
+  { label: "Contact", href: "/booking", icon: Mail },
 ];
 
 export default function Navbar() {

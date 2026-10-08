@@ -44,7 +44,7 @@ export default function Footer() {
 
             <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
               <a
-                href="#how-it-works"
+                href="/booking"
                 id="cta-band-book"
                 className="px-10 py-4 rounded-full font-semibold text-sm tracking-widest uppercase text-white bg-[#8E4585] hover:bg-[#8E4585]/90 hover:shadow-[0_0_40px_rgba(142,69,133,0.55)] transition-all duration-400"
               >
@@ -143,7 +143,7 @@ export default function Footer() {
                 <li>Colombo · Singapore</li>
               </ul>
               <a
-                href="#how-it-works"
+                href="/booking"
                 id="footer-book-cta"
                 className="mt-6 inline-flex items-center gap-2 px-5 py-2.5 rounded-full text-[11px] font-semibold tracking-widest uppercase text-white bg-[#8E4585] hover:bg-[#8E4585]/90 hover:shadow-[0_0_20px_rgba(142,69,133,0.4)] transition-all duration-300"
               >

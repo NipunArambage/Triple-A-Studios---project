@@ -1,7 +1,7 @@
 "use client";
 
 import { useRef } from "react";
-import { motion, useInView } from "framer-motion";
+import { motion, useInView, Variants } from "framer-motion";
 
 const services = [
   { id: "01", title: "Production", subtitle: "SCENOGRAPHY & CONCIERGE" },
@@ -10,7 +10,7 @@ const services = [
   { id: "04", title: "Olfaction", subtitle: "VESSELS & SCENT ATMOSPHERE" },
 ];
 
-const containerVariants = {
+const containerVariants: Variants = {
   hidden: {},
   visible: {
     transition: {
@@ -20,7 +20,7 @@ const containerVariants = {
   },
 };
 
-const itemVariants = {
+const itemVariants: Variants = {
   hidden: { opacity: 0, x: -30 },
   visible: {
     opacity: 1,

@@ -11,8 +11,8 @@ function Navbar() {
   const navLinks = [
     { label: "Home", href: "#home" },
     { label: "Services", href: "#services" },
-    { label: "Events", href: "#stats" },
-    { label: "Contact", href: "#timeline" },
+    { label: "Gallery", href: "/gallery" },
+    { label: "Contact", href: "/booking" },
   ];
 
   return (
@@ -48,7 +48,7 @@ function Navbar() {
 
       {/* Right: CTA Button */}
       <a
-        href="#timeline"
+        href="/booking"
         className="hidden md:flex items-center justify-center px-6 py-2.5 rounded-full text-[10px] font-bold tracking-widest uppercase text-white bg-[#7A3661]/90 backdrop-blur-md border border-[#7A3661]/50 hover:bg-[#7A3661] transition-all shadow-[0_0_20px_rgba(122,54,97,0.4)]"
       >
         Book Consultation
@@ -196,9 +196,9 @@ function Hero() {
             <button className="flex items-center gap-2 px-8 py-4 rounded-full text-xs font-bold tracking-widest uppercase text-white bg-[#7A3661]/90 hover:bg-[#7A3661] transition-all shadow-[0_0_30px_rgba(122,54,97,0.4)]">
               Explore Works <ArrowRight size={16} />
             </button>
-            <button className="px-8 py-4 rounded-full text-xs font-bold tracking-widest uppercase text-white bg-white/5 backdrop-blur-md border border-white/10 hover:bg-white/10 transition-all">
+            <a href="/booking" className="px-8 py-4 rounded-full text-xs font-bold tracking-widest uppercase text-white bg-white/5 backdrop-blur-md border border-white/10 hover:bg-white/10 transition-all">
               Book Consultation
-            </button>
+            </a>
           </div>
         </motion.div>
 
