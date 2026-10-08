@@ -1,15 +1,89 @@
 @import "tailwindcss";
 
 @theme inline {
-  --color-background: #0f0f0f;
-  --color-foreground: #f4f4f5;
+  --color-background: #050505;
+  --color-foreground: #ffffff;
+  --color-muted: #e5e5e5;
+  --color-plum: #8E4585;
+  --color-plum-light: #b05daa;
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
   --font-serif: var(--font-playfair);
 }
 
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
 body {
-  background: var(--color-background);
-  color: var(--color-foreground);
+  background: #050505;
+  color: #ffffff;
   font-family: var(--font-sans), sans-serif;
+  overflow-x: hidden;
+}
+
+/* Glass utilities */
+.glass {
+  background: rgba(255, 255, 255, 0.04);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.glass-plum {
+  background: rgba(142, 69, 133, 0.12);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(142, 69, 133, 0.3);
+}
+
+/* Plum glow */
+.plum-glow {
+  box-shadow: 0 0 20px rgba(142, 69, 133, 0.4), 0 0 60px rgba(142, 69, 133, 0.15);
+}
+
+/* Scrollbar */
+::-webkit-scrollbar {
+  width: 3px;
+}
+::-webkit-scrollbar-track {
+  background: #050505;
+}
+::-webkit-scrollbar-thumb {
+  background: #8E4585;
+  border-radius: 2px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #b05daa;
+}
+
+/* Custom transition durations */
+.duration-400 {
+  transition-duration: 400ms;
+}
+.duration-800 {
+  transition-duration: 800ms;
+}
+
+/* Scale 112% utility */
+.scale-112 {
+  transform: scale(1.12);
+}
+
+/* Selection */
+::selection {
+  background: rgba(142, 69, 133, 0.35);
+  color: #fff;
+}
+
+/* Prevent images from being draggable in gallery */
+img {
+  user-select: none;
+  -webkit-user-drag: none;
 }

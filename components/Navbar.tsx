@@ -1,41 +1,59 @@
-import Link from 'next/link';
+"use client";
+
+import Link from "next/link";
+import { useState } from "react";
+import { motion } from "framer-motion";
+import { Home, LayoutGrid, CalendarDays, Mail } from "lucide-react";
+
+const navLinks = [
+  { label: "Home", href: "#home", icon: Home },
+  { label: "Services", href: "#packages", icon: LayoutGrid },
+  { label: "Events", href: "#gallery", icon: CalendarDays },
+  { label: "Contact", href: "/booking", icon: Mail },
+];
 
 export default function Navbar() {
+  const [activeLink, setActiveLink] = useState("Home");
+
   return (
-    <header className="flex items-center justify-between py-6 px-8 lg:px-16 border-b border-[#222]">
-      {/* Logo Area */}
-      <div className="flex items-center gap-4">
-        <div className="w-10 h-10 bg-[#e0dfd5] rounded-full flex items-center justify-center text-xs font-bold text-black">
-          a³
-        </div>
-        <div className="flex flex-col uppercase tracking-[0.2em] text-[10px] font-semibold leading-tight">
-          <span className="text-gray-200">Triple A</span>
-          <span className="text-gray-500">Design Studios</span>
-        </div>
-      </div>
+    <motion.nav
+      initial={{ y: -100, opacity: 0, x: "-50%" }}
+      animate={{ y: 0, opacity: 1, x: "-50%" }}
+      transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
+      className="fixed top-6 md:top-8 left-1/2 z-50 flex items-center p-2 md:px-4 rounded-full bg-white/10 backdrop-blur-xl border border-white/20 shadow-[0_0_35px_rgba(142,69,133,0.35)] gap-2 md:gap-4"
+    >
+      {/* Logo inside Navbar */}
+      <Link href="#home" onClick={() => setActiveLink("Home")} className="mr-2 md:mr-6 flex-shrink-0">
+        <img 
+          src="/logo.jpg" 
+          alt="a³ Studios" 
+          className="w-10 h-10 md:w-12 md:h-12 rounded-full object-cover border-2 border-white/20 hover:border-[#8E4585] transition-colors"
+        />
+      </Link>
 
-      {/* Navigation Links */}
-      <nav className="hidden lg:flex items-center gap-8 text-[11px] font-medium tracking-[0.2em] uppercase">
-        <Link href="/" className="text-gray-400 hover:text-white transition-colors">Home</Link>
-        <Link href="/services" className="text-white relative after:content-[''] after:absolute after:-bottom-2 after:left-0 after:w-full after:h-[1px] after:bg-white">Services</Link>
-        <Link href="/portfolio" className="text-gray-400 hover:text-white transition-colors">Portfolio</Link>
-        <Link href="/atelier" className="text-gray-400 hover:text-white transition-colors">Atelier</Link>
-        <Link href="/about" className="text-gray-400 hover:text-white transition-colors">About</Link>
-        <Link href="/contact" className="text-gray-400 hover:text-white transition-colors">Contact</Link>
-      </nav>
+      {navLinks.map((link) => {
+        const Icon = link.icon;
+        const isActive = activeLink === link.label;
 
-      {/* Actions */}
-      <div className="flex items-center gap-4">
-        <Link href="/contact" className="hidden sm:block border border-gray-700 px-6 py-2.5 text-[10px] uppercase tracking-widest font-semibold hover:bg-white hover:text-black transition-colors">
-          Book a consultation
-        </Link>
-        <button className="w-10 h-10 rounded-full border border-gray-700 flex items-center justify-center hover:bg-white hover:text-black transition-colors">
-          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-            <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"></path>
-            <circle cx="12" cy="7" r="4"></circle>
-          </svg>
-        </button>
-      </div>
-    </header>
+        return (
+          <Link
+            key={link.label}
+            href={link.href}
+            onClick={() => setActiveLink(link.label)}
+            className={`flex flex-col items-center justify-center w-[85px] md:w-28 py-2.5 transition-all duration-300 rounded-full border ${
+              isActive 
+                ? "bg-white/15 border-white/20 text-white shadow-inner" 
+                : "border-transparent text-white/50 hover:text-white/90 hover:bg-white/5"
+            }`}
+          >
+            <Icon size={20} className="mb-1.5" strokeWidth={isActive ? 2.5 : 2} />
+            <span className="text-[10px] md:text-[11px] font-semibold tracking-wider uppercase">
+              {link.label}
+            </span>
+          </Link>
+        );
+      })}
+    </motion.nav>
   );
 }
+
